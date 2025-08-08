@@ -43,7 +43,7 @@ public class AdminDashboard extends JFrame {
         navPanel.add(Box.createVerticalStrut(10));
         navPanel.add(transBtn);
 
-        navPanel.add(Box.createVerticalStrut(10));
+        navPanel.add(Box.createVerticalStrut(500));
         navPanel.add(logoutBtn);
 
         // CENTER: Main Content
