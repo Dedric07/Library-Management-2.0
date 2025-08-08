@@ -77,34 +77,7 @@ import java.util.ArrayList;
          }
      }
 
-     //view member function
-     /*
-     public static void viewMember() {
-         try {
-             Connection connectdb = Database.connect();
-             //use this to send sql command to the database
-             Statement state = connectdb.createStatement();
-             ResultSet result = state.executeQuery("SELECT * FROM MEMBER");
-
-             //string builder help combine all lines into one string
-             StringBuilder stringb = new StringBuilder("==== Member List ====\n");
-             while (result.next()) {
-                 stringb.append("Member ID: ").append(result.getInt("member_id")).append("\n");
-                 stringb.append("Member Name: ").append(result.getString("member_name")).append("\n");
-                 stringb.append("Member Contact details: ").append(result.getString("contact_details")).append("\n\n");
-                 stringb.append("Member Password is: ").append(result.getString("member_password")).append("\n\n");
-
-             }
-
-             //converts the contents of string builder into normal string
-             //the full string will be shown in a popup window
-             JOptionPane.showMessageDialog(null, stringb.toString());
-             connectdb.close();
-         } catch (Exception error) {
-             JOptionPane.showMessageDialog(null, "Error viewing members !!! " + error.getMessage());
-         }
-     }
-*/
+   
      public static JPanel viewMember() {
          JPanel memberPanel = new JPanel(new BorderLayout());
          memberPanel.setBorder(BorderFactory.createTitledBorder("Member List"));
@@ -287,4 +260,5 @@ import java.util.ArrayList;
      }
 
  }
+
 
