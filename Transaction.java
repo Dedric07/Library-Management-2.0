@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
@@ -146,7 +147,7 @@ public class Transaction {
     }
 
 
-   
+
 
     public static JPanel viewTransaction() {
         JPanel transactionPanel = new JPanel(new BorderLayout());
@@ -200,9 +201,8 @@ public class Transaction {
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.add(viewTransaction(), BorderLayout.CENTER);
 
-        JButton borrowBtn = new JButton("Add Member");
-        JButton returnBtn = new JButton("Delete Member");
-        JButton deleteBtn = new JButton("Update Member");
+
+        JButton deleteBtn = new JButton("Delete Transaction");
 
         JPanel navPanel = new JPanel();
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
@@ -210,21 +210,14 @@ public class Transaction {
         navPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         Dimension btnSize = new Dimension(180, 40);
 
-        borrowBtn.setMaximumSize(btnSize);
-        deleteBtn.setMaximumSize(btnSize);
+
         deleteBtn.setMaximumSize(btnSize);
 
 
-        navPanel.add(Box.createVerticalStrut(20));
-        navPanel.add(borrowBtn);
-        navPanel.add(Box.createVerticalStrut(10));
-        navPanel.add(returnBtn);
-        navPanel.add(Box.createVerticalStrut(10));
+
         navPanel.add(deleteBtn);
 
         // Listeners
-        borrowBtn.addActionListener(e -> borrowBook());
-        returnBtn.addActionListener(e-> returnBook());
         deleteBtn.addActionListener(e-> deleteTransaction());
 
         frame.add(navPanel, BorderLayout.WEST);
