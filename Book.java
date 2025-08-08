@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
 import java.util.List;
@@ -87,45 +86,17 @@ public class Book {
         }
     }
 
-    /*
-    public static void viewBook(){
-        try{
-            Connection connectdb = Database.connect();
+    
+    public static JPanel viewBook() {
+        JPanel bookPanel = new JPanel(new BorderLayout());
+        bookPanel.setBorder(BorderFactory.createTitledBorder("Book List"));
 
-            Statement state = connectdb.createStatement();
-            ResultSet  result= state.executeQuery("SELECT * FROM BOOK");
-
-            //string builder
-            StringBuilder stringb = new StringBuilder("====Student list====\n");
-            while(result.next()){
-                stringb.append("Book ID: ").append(result.getInt("book_id")).append("\n");
-                stringb.append("Book Title: ").append(result.getString("book_title")).append("\n");
-                stringb.append("Book Author: ").append(result.getString("book_author")).append("\n");
-                stringb.append("Book Year: ").append(result.getInt("publish_year")).append("\n");
-                stringb.append("Book Quantity: ").append(result.getInt("book_quantity")).append("\n");
-                stringb.append("Book Genre: ").append(result.getString("book_genre")).append("\n\n");
-
-            }
-            JOptionPane.showMessageDialog(null, stringb.toString());
-            connectdb.close();  //remember to put outside the while loop, so that it can load all the book in database
-
-
-        }catch(Exception error){
-            JOptionPane.showMessageDialog(null, "Error viewing book !!! " + error.getMessage());
-        }
-
-    }
-*/
-    public static void viewBook() {
         try {
             Connection connectdb = Database.connect();
             Statement state = connectdb.createStatement();
             ResultSet result = state.executeQuery("SELECT * FROM BOOK");
 
-            // column for jtable
             String[] columnBook = {"Book ID", "Title", "Author", "Year", "Quantity", "Genre"};
-
-            //List that store string arrays               //arraylist- create a new empty list that will store multiple string array
             List<String[]> bookInfo = new ArrayList<>();
 
             while (result.next()) {
@@ -141,53 +112,23 @@ public class Book {
 
             connectdb.close();
 
-            // Convert List to 2D array
             String[][] tableData = new String[bookInfo.size()][6];
             for (int i = 0; i < bookInfo.size(); i++) {
                 tableData[i] = bookInfo.get(i);
             }
 
-            // Create JTable and put in scroll pane
             JTable table = new JTable(tableData, columnBook);
             JScrollPane scrollPane = new JScrollPane(table);
-
-            // Show in JFrame
-            JFrame frame = new JFrame("Book List");
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.setSize(650, 350);
-            frame.add(scrollPane);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
+            bookPanel.add(scrollPane, BorderLayout.CENTER);
 
         } catch (Exception error) {
-            JOptionPane.showMessageDialog(null, "Error viewing books !!! " + error.getMessage());
+            JOptionPane.showMessageDialog(null, "Error loading books: " + error.getMessage());
+            bookPanel.add(new JLabel("Error loading book data"), BorderLayout.CENTER);
         }
+
+        return bookPanel;
     }
 
-    private void loadBookData(DefaultTableModel model) {
-        try {
-            Connection connectdb = Database.connect();
-            Statement state = connectdb.createStatement();
-            ResultSet result = state.executeQuery("SELECT * FROM book");
-
-            model.setRowCount(0); // Clear existing rows
-
-            while (result.next()) {
-                Object[] row = new Object[6];
-                row[0] = result.getInt("book_id");
-                row[1] = result.getString("book_title");
-                row[2] = result.getString("book_author");
-                row[3] = result.getString("publish_year");
-                row[4] = result.getString("book_quantity");
-                row[5] = result.getString("book_genre");
-                model.addRow(row);
-            }
-
-            connectdb.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error loading books: " + e.getMessage());
-        }
-    }
 
 
     public static void searchBook(){
@@ -294,98 +235,52 @@ public class Book {
         }
     }
 
-    public void showPage() {
-        JFrame frame = new JFrame("Book Management");
-        frame.setSize(1000, 600);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton addBtn = new JButton("Add Book");
-        JButton deleteBtn = new JButton("Delete Book");
-        JButton updateBtn = new JButton("Update Book");
-        JButton viewBtn = new JButton("View Book");
-        JButton searchBtn = new JButton("Search Book");
-
-
-        topPanel.add(addBtn);
-        topPanel.add(updateBtn);
-        topPanel.add(deleteBtn);
-        topPanel.add(searchBtn);
-
-        String[] columns = {"book_id", "book_title", "book_author", "publish_year", "book_quantity", "book_genre"};
-        DefaultTableModel model = new DefaultTableModel(columns, 0);
-        JTable table = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        frame.add(topPanel, BorderLayout.NORTH);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        loadBookData(model);
-
-        addBtn.addActionListener(e -> {
-            addBook();
-            loadBookData(model);
-        });
-
-        updateBtn.addActionListener(e -> {
-            updateBook();
-            loadBookData(model);
-        });
-
-        deleteBtn.addActionListener(e -> {
-            deleteBook();
-            loadBookData(model);
-        });
-
-        searchBtn.addActionListener(e->{
-            searchBook();
-            loadBookData(model);
-        });
-        viewBtn.addActionListener(e -> loadBookData(model));
-
-        frame.setVisible(true);
-    }
-
-
-    /*
     public void showPage() {
         JFrame frame = new JFrame("Book Management System");
-        frame.setSize(400, 300);
+        frame.setSize(1000, 700);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLayout(null);
+        frame.setLayout((new BorderLayout(10,10)));
+
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.add(viewBook(), BorderLayout.CENTER);
 
         // Buttons
         JButton addBtn = new JButton("Add Book");
         JButton deleteBtn = new JButton("Delete Book");
         JButton updateBtn = new JButton("Update Book");
-        JButton viewBtn = new JButton("View Books");
         JButton searchBtn = new JButton("Search Book");
 
-        // Set positions
-        addBtn.setBounds(100, 30, 200, 30);
-        deleteBtn.setBounds(100, 70, 200, 30);
-        updateBtn.setBounds(100, 110, 200, 30);
-        viewBtn.setBounds(100, 150, 200, 30);
-        searchBtn.setBounds(100, 190, 200, 30);
+        JPanel navPanel = new JPanel();
+        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
+        navPanel.setBackground(new Color(90, 93, 231));
+        navPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        Dimension btnSize = new Dimension(180, 40);
+
+        addBtn.setMaximumSize(btnSize);
+        deleteBtn.setMaximumSize(btnSize);
+        updateBtn.setMaximumSize(btnSize);
+        searchBtn.setMaximumSize(btnSize);
 
         // Add to frame
-        frame.add(addBtn);
-        frame.add(deleteBtn);
-        frame.add(updateBtn);
-        frame.add(viewBtn);
-        frame.add(searchBtn);
+        navPanel.add(Box.createVerticalStrut(20));
+        navPanel.add(addBtn);
+        navPanel.add(Box.createVerticalStrut(10));
+        navPanel.add(deleteBtn);
+        navPanel.add(Box.createVerticalStrut(10));
+        navPanel.add(updateBtn);
+        navPanel.add(Box.createVerticalStrut(10));
+        navPanel.add(searchBtn);
 
         addBtn.addActionListener(e -> addBook());
-        viewBtn.addActionListener(e-> viewBook());
         searchBtn.addActionListener(e-> searchBook());
         deleteBtn.addActionListener(e-> deleteBook());
         updateBtn.addActionListener(e-> updateBook());
 
-
+        frame.add(navPanel, BorderLayout.WEST);
+        frame.add(contentPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
-    */
 
 
 }

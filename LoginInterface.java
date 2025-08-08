@@ -1,10 +1,6 @@
 
-
-import java.util.*;
 import java.sql.*;
 import java.sql.SQLException;
-import javax.swing.*;
-import java.awt.*;
 
 public class LoginInterface {
     public static String[] LoginUser(String name, String password) {
@@ -34,5 +30,4 @@ public class LoginInterface {
         MyFrame frame = new MyFrame();
     }
 }
-
 
