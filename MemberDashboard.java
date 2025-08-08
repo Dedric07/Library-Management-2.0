@@ -241,7 +241,7 @@ public class MemberDashboard extends JFrame {
         navPanel.add(Box.createVerticalStrut(10));
         navPanel.add(viewBtn);
 
-        navPanel.add(Box.createVerticalStrut(10));
+        navPanel.add(Box.createVerticalStrut(500));
         navPanel.add(logoutBtn);
 
         add(navPanel, BorderLayout.WEST);
