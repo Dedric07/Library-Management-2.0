@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -112,7 +110,6 @@ public class UserTransaction {
     }
 
 
-
     /*
     public static void viewTransaction() {
         try {
@@ -195,92 +192,12 @@ public class UserTransaction {
         }
     }
 
-    private void loadUserTransactionData(DefaultTableModel model) {
-        try {
-            Connection connectdb = Database.connect();
-            Statement state = connectdb.createStatement();
-            ResultSet result = state.executeQuery("SELECT * FROM transaction");
 
-            model.setRowCount(0); // Clear existing rows
-
-            while (result.next()) {
-                Object[] row = new Object[7];
-                row[0] = result.getInt("transaction_id");
-                row[1] = result.getInt("member_id");
-                row[2] = result.getString("book_title");
-                row[3] = result.getInt("borrow_quantity");
-                row[4] = result.getString("borrow_date");
-                row[5] = result.getString("return_date");
-                row[6] = result.getString("status");
-                model.addRow(row);
-            }
-
-            connectdb.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error loading transactions: " + e.getMessage());
-        }
-    }
-
-
-
-    public void showPage() {
-        JFrame frame = new JFrame("Transaction Management");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(1000, 600);
-        frame.setLayout(new BorderLayout());
-
-        // Top panel with buttons
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton borrowBtn = new JButton("Borrow Book");
-        JButton returnBtn = new JButton("Return Book");
-        JButton viewBtn = new JButton("View Transactions");
-
-
-        topPanel.add(borrowBtn);
-        topPanel.add(returnBtn);
-
-
-        frame.add(topPanel, BorderLayout.NORTH);
-
-        // Table panel
-        String[] columnNames = {"Transaction ID", "Member ID", "Book Title",
-                "Borrow Quantity", "Borrow Date", "Return Date", "Status"};
-
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-        JTable table = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        // Load table data initially
-        loadUserTransactionData(model);
-
-        // Button actions
-        borrowBtn.addActionListener(e -> {
-            borrowBook();
-            loadUserTransactionData(model);  // refresh
-        });
-
-        returnBtn.addActionListener(e -> {
-            returnBook();
-            loadUserTransactionData(model);  // refresh
-        });
-
-
-        viewBtn.addActionListener(e -> {
-            loadUserTransactionData(model);  // refresh manually
-        });
-
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-    /*
     public void showPage() {
         JFrame frame = new JFrame("Transaction Management System");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(null);
-
-
 
         // Buttons
         JButton borrowBtn = new JButton("Borrow Book");
@@ -299,14 +216,13 @@ public class UserTransaction {
         frame.add(viewBtn);
 
 
-
-
         borrowBtn.addActionListener(e -> borrowBook());
         viewBtn.addActionListener(e-> viewTransaction());
         returnBtn.addActionListener(e-> returnBook());
 
-        frame.setVisible(true);
 
+
+
+        frame.setVisible(true);
     }
-    */
 }

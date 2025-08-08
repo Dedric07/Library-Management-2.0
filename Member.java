@@ -1,6 +1,5 @@
 
 import javax.swing.*; //for (GUI)
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*; //for database connection and sql queries
 import java.util.List;
@@ -106,17 +105,17 @@ import java.util.ArrayList;
          }
      }
 */
-     public static void viewMember() {
+     public static JPanel viewMember() {
+         JPanel memberPanel = new JPanel(new BorderLayout());
+         memberPanel.setBorder(BorderFactory.createTitledBorder("Member List"));
+
          try {
              Connection connectdb = Database.connect();
              Statement state = connectdb.createStatement();
              ResultSet result = state.executeQuery("SELECT * FROM MEMBER");
 
-             //column for jtable
-             String[] columnMem = {"Member ID", "Name", "Contact Details", "Password"};
-
-             //List that store string arrays               //arraylist- create a new empty list that will store multiple string array
-             List<String[]> meminfo = new ArrayList<>();
+             String[] columnMember = {"Member ID", "Member Name", "Contact Details", "Password"};
+             List<String[]> memberInfo = new ArrayList<>();
 
              while (result.next()) {
                  String[] row = new String[4];
@@ -124,57 +123,27 @@ import java.util.ArrayList;
                  row[1] = result.getString("member_name");
                  row[2] = result.getString("contact_details");
                  row[3] = result.getString("member_password");
-                 meminfo.add(row);
+                 memberInfo.add(row);
              }
 
              connectdb.close();
 
-             // convert to 2d
-             String[][] tableData = new String[meminfo.size()][4];
-             for (int i = 0; i < meminfo.size(); i++) {
-                 tableData[i] = meminfo.get(i);
+             String[][] tableData = new String[memberInfo.size()][4];
+             for (int i = 0; i < memberInfo.size(); i++) {
+                 tableData[i] = memberInfo.get(i);
              }
 
-             // create jtable with scrollpane
-             JTable table = new JTable(tableData, columnMem);
+             JTable table = new JTable(tableData, columnMember);
              JScrollPane scrollPane = new JScrollPane(table);
-
-             // show in the Jframe
-             JFrame frame = new JFrame("Member List");
-             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-             frame.setSize(650, 350);
-             frame.add(scrollPane);
-             frame.setLocationRelativeTo(null);
-             frame.setVisible(true);
+             memberPanel.add(scrollPane, BorderLayout.CENTER);
 
          } catch (Exception error) {
-             JOptionPane.showMessageDialog(null, "Error viewing members !!! " + error.getMessage());
+             JOptionPane.showMessageDialog(null, "Error loading members: " + error.getMessage());
+             memberPanel.add(new JLabel("Error loading member data"), BorderLayout.CENTER);
          }
+
+         return memberPanel;
      }
-
-     private void loadMemberData(DefaultTableModel model) {
-         try {
-             Connection connectdb = Database.connect();
-             Statement state = connectdb.createStatement();
-             ResultSet result = state.executeQuery("SELECT * FROM member");
-
-             model.setRowCount(0); // Clear existing rows
-
-             while (result.next()) {
-                 Object[] row = new Object[4];
-                 row[0] = result.getInt("member_id");
-                 row[1] = result.getString("member_name");
-                 row[2] = result.getString("contact_details");
-                 row[3] = result.getString("member_password");
-                 model.addRow(row);
-             }
-
-             connectdb.close();
-         } catch (Exception e) {
-             JOptionPane.showMessageDialog(null, "Error loading members: " + e.getMessage());
-         }
-     }
-
 
 
 
@@ -272,97 +241,50 @@ import java.util.ArrayList;
      }
 
 
-
-
-     public void showPage() {
-         JFrame frame = new JFrame("Member Management");
-         frame.setSize(1000, 600);
-         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-         frame.setLayout(new BorderLayout());
-
-         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-         JButton addBtn = new JButton("Add Member");
-         JButton deleteBtn = new JButton("Delete Member");
-         JButton updateBtn = new JButton("Update Member");
-         JButton viewBtn = new JButton("View member");
-         JButton searchBtn = new JButton("Search member");
-
-
-         topPanel.add(addBtn);
-         topPanel.add(updateBtn);
-         topPanel.add(deleteBtn);
-         topPanel.add(searchBtn);
-
-         String[] columns = {"member_id", "member_name", "contact_details", "member_password"};
-         DefaultTableModel model = new DefaultTableModel(columns, 0);
-         JTable table = new JTable(model);
-         JScrollPane scrollPane = new JScrollPane(table);
-
-         frame.add(topPanel, BorderLayout.NORTH);
-         frame.add(scrollPane, BorderLayout.CENTER);
-
-         loadMemberData(model);
-
-         addBtn.addActionListener(e -> {
-             addMember();
-             loadMemberData(model);
-         });
-
-         updateBtn.addActionListener(e -> {
-             updateMember();
-             loadMemberData(model);
-         });
-
-         deleteBtn.addActionListener(e -> {
-             deleteMember();
-             loadMemberData(model);
-         });
-
-         searchBtn.addActionListener(e->{
-             searchMember();
-             loadMemberData(model);
-         });
-         viewBtn.addActionListener(e -> loadMemberData(model));
-
-         frame.setVisible(true);
-     }
-
-     /*
      public void showPage() {
          JFrame frame = new JFrame("Member Management System");
-         frame.setSize(400, 300);
+         frame.setSize(1000, 700);
          frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-         // Use a panel with GridLayout for buttons
-         JPanel panel = new JPanel(new GridLayout(5, 1, 10, 10)); // 5 rows, 1 column, spacing = 10
-         panel.setBorder(BorderFactory.createEmptyBorder(30, 80, 30, 80));
+         JPanel contentPanel = new JPanel(new BorderLayout());
+         contentPanel.add(viewMember(), BorderLayout.CENTER);
 
          JButton addBtn = new JButton("Add Member");
          JButton deleteBtn = new JButton("Delete Member");
          JButton updateBtn = new JButton("Update Member");
-         JButton viewBtn = new JButton("View Member");
          JButton searchBtn = new JButton("Search Member");
 
-         // Add buttons to panel
-         panel.add(addBtn);
-         panel.add(deleteBtn);
-         panel.add(updateBtn);
-         panel.add(viewBtn);
-         panel.add(searchBtn);
+         JPanel navPanel = new JPanel();
+         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
+         navPanel.setBackground(new Color(90, 93, 231));
+         navPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+         Dimension btnSize = new Dimension(180, 40);
 
-         // Add panel to frame
-         frame.add(panel);
+         addBtn.setMaximumSize(btnSize);
+         deleteBtn.setMaximumSize(btnSize);
+         updateBtn.setMaximumSize(btnSize);
+         searchBtn.setMaximumSize(btnSize);
+
+         navPanel.add(Box.createVerticalStrut(20));
+         navPanel.add(addBtn);
+         navPanel.add(Box.createVerticalStrut(10));
+         navPanel.add(deleteBtn);
+         navPanel.add(Box.createVerticalStrut(10));
+         navPanel.add(updateBtn);
+         navPanel.add(Box.createVerticalStrut(10));
+         navPanel.add(searchBtn);
+
 
          // Listeners
          addBtn.addActionListener(e -> addMember());
-         viewBtn.addActionListener(e -> viewMember());
          searchBtn.addActionListener(e -> searchMember());
          deleteBtn.addActionListener(e -> deleteMember());
          updateBtn.addActionListener(e -> updateMember());
 
-         frame.setLocationRelativeTo(null); // center frame on screen
+         frame.add(navPanel, BorderLayout.WEST);
+         frame.add(contentPanel, BorderLayout.CENTER);
          frame.setVisible(true);
      }
-*/
+
  }
 
