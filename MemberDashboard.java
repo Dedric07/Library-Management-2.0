@@ -112,35 +112,6 @@ public class MemberDashboard extends JFrame {
     }
 
 
-    /*
-    public static void viewTransaction() {
-        try {
-            Connection connectdb = Database.connect();
-
-            Statement state = connectdb.createStatement();
-            ResultSet result = state.executeQuery("SELECT * FROM transaction");
-
-            //string builder
-            StringBuilder stringb = new StringBuilder("====Transaction list====\n");
-            while (result.next()) {
-                stringb.append("Transaction ID: ").append(result.getInt("transaction_id")).append("\n");
-                stringb.append("Member ID: ").append(result.getInt("member_id")).append("\n");
-                stringb.append("Book Title: ").append(result.getString("book_title")).append("\n");
-                stringb.append("Borrow Quantity: ").append(result.getInt("borrow_quantity")).append("\n");
-                stringb.append("Borrow Date: ").append(result.getString("borrow_date")).append("\n");
-                stringb.append("Return Date: ").append(result.getString("return_date")).append("\n");
-                stringb.append("Status: ").append(result.getString("status")).append("\n\n");
-            }
-
-            JOptionPane.showMessageDialog(null, stringb.toString());
-            connectdb.close();  //remember to put outside the while loop, so that it can load all the transaction in database
-
-        } catch (Exception error) {
-            JOptionPane.showMessageDialog(null, "Error viewing transaction !!! " + error.getMessage());
-        }
-    }
-    */
-
     public static void viewTransaction() {
         try {
             Connection connectdb = Database.connect();
@@ -277,3 +248,4 @@ public class MemberDashboard extends JFrame {
         setVisible(true);
     }
 }
+
