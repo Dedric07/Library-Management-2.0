@@ -86,35 +86,7 @@ public class Book {
         }
     }
 
-    /*
-    public static void viewBook(){
-        try{
-            Connection connectdb = Database.connect();
-
-            Statement state = connectdb.createStatement();
-            ResultSet  result= state.executeQuery("SELECT * FROM BOOK");
-
-            //string builder
-            StringBuilder stringb = new StringBuilder("====Student list====\n");
-            while(result.next()){
-                stringb.append("Book ID: ").append(result.getInt("book_id")).append("\n");
-                stringb.append("Book Title: ").append(result.getString("book_title")).append("\n");
-                stringb.append("Book Author: ").append(result.getString("book_author")).append("\n");
-                stringb.append("Book Year: ").append(result.getInt("publish_year")).append("\n");
-                stringb.append("Book Quantity: ").append(result.getInt("book_quantity")).append("\n");
-                stringb.append("Book Genre: ").append(result.getString("book_genre")).append("\n\n");
-
-            }
-            JOptionPane.showMessageDialog(null, stringb.toString());
-            connectdb.close();  //remember to put outside the while loop, so that it can load all the book in database
-
-
-        }catch(Exception error){
-            JOptionPane.showMessageDialog(null, "Error viewing book !!! " + error.getMessage());
-        }
-
-    }
-*/
+    
     public static JPanel viewBook() {
         JPanel bookPanel = new JPanel(new BorderLayout());
         bookPanel.setBorder(BorderFactory.createTitledBorder("Book List"));
@@ -309,5 +281,6 @@ public class Book {
         frame.add(contentPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
+
 
 }
