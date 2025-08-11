@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Transaction {
 
-    public static void borrowBook() {
+    public static void borrowBook() {//borrow book
         try {
             int memid = Integer.parseInt(JOptionPane.showInputDialog("Enter your Member ID: "));
             String btitle = JOptionPane.showInputDialog("Enter book title you want to borrow: ");
@@ -225,4 +225,5 @@ public class Transaction {
         frame.setVisible(true);
     }
 }
+
 
