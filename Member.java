@@ -13,13 +13,13 @@ import java.util.ArrayList;
     private String contact_details;
 
 
-     public Member() {
+     public Member() {//default constructor
          this.member_id = 0;
          this.member_name = "";
          this.contact_details = "";
      }
 
-    //constructor
+    //parameterized constructor
     public Member(int memberID, String name, String contactDetails) {
         this.member_id = memberID;
         this.member_name = name;
@@ -260,5 +260,6 @@ import java.util.ArrayList;
      }
 
  }
+
 
 
