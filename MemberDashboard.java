@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
@@ -54,13 +55,11 @@ public class MemberDashboard extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Book title cannot be found.");
             }
-
             connectdb.close();
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "Error borrowing book: " + error.getMessage());
         }
     }
-
 
     public static void returnBook() {
         try {
@@ -219,6 +218,7 @@ public class MemberDashboard extends JFrame {
         JButton borrowBtn = new JButton("Borrow Book");
         JButton returnBtn = new JButton("Return Book");
         JButton viewBtn = new JButton("View Transaction");
+        JButton logoutBtn = new JButton("Log out");
 
         // WEST: SideBar
         JPanel navPanel = new JPanel();
@@ -230,6 +230,7 @@ public class MemberDashboard extends JFrame {
         borrowBtn.setMaximumSize(btnSize);
         returnBtn.setMaximumSize(btnSize);
         viewBtn.setMaximumSize(btnSize);
+        logoutBtn.setMaximumSize(btnSize);
 
         navPanel.add(Box.createVerticalStrut(20));
         navPanel.add(borrowBtn);
@@ -238,12 +239,19 @@ public class MemberDashboard extends JFrame {
         navPanel.add(Box.createVerticalStrut(10));
         navPanel.add(viewBtn);
 
+        navPanel.add(Box.createVerticalStrut(500));
+        navPanel.add(logoutBtn);
+
         add(navPanel, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
 
         borrowBtn.addActionListener(e ->borrowBook());
         returnBtn.addActionListener(e -> returnBook());
         viewBtn.addActionListener(e -> viewTransaction());
+        logoutBtn.addActionListener(e -> {
+            dispose(); // close the dashboard
+            new MyFrame(); // reopen the login interface
+        } );
 
         setVisible(true);
     }
