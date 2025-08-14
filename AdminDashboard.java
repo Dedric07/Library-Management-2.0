@@ -1,7 +1,7 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
 
 
 
@@ -21,6 +21,7 @@ public class AdminDashboard extends JFrame {
         JButton memberBtn = new JButton("Manage Members");
         JButton bookBtn = new JButton("Manage Books");
         JButton transBtn = new JButton("Manage Transactions");
+        JButton logoutBtn = new JButton("Log Out");
 
         // WEST: SideBar
         JPanel navPanel = new JPanel();
@@ -32,6 +33,7 @@ public class AdminDashboard extends JFrame {
         memberBtn.setMaximumSize(btnSize);
         bookBtn.setMaximumSize(btnSize);
         transBtn.setMaximumSize(btnSize);
+        logoutBtn.setMaximumSize(btnSize);
 
         navPanel.add(Box.createVerticalStrut(20));
         navPanel.add(memberBtn);
@@ -39,6 +41,9 @@ public class AdminDashboard extends JFrame {
         navPanel.add(bookBtn);
         navPanel.add(Box.createVerticalStrut(10));
         navPanel.add(transBtn);
+
+        navPanel.add(Box.createVerticalStrut(500));
+        navPanel.add(logoutBtn);
 
         // CENTER: Main Content
         JPanel mainPanel = new JPanel(new GridLayout(2, 2, 20, 20));
@@ -58,6 +63,10 @@ public class AdminDashboard extends JFrame {
         memberBtn.addActionListener(e -> new Member().showPage());
         bookBtn.addActionListener(e -> new Book().showPage());
         transBtn.addActionListener(e -> new Transaction().showPage());
+        logoutBtn.addActionListener(e -> {
+            dispose(); // close the dashboard
+            new MyFrame(); // reopen the login interface
+        } );
 
         setVisible(true);
     }
