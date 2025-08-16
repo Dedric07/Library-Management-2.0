@@ -61,7 +61,7 @@ public class Transaction {
         }
     }
 
-
+    //display transaction in a JTable
     public static void returnBook() {
         try {
             int tranid = Integer.parseInt(JOptionPane.showInputDialog("Enter your transaction ID: "));
@@ -192,7 +192,7 @@ public class Transaction {
         return transactionPanel;
     }
 
-
+    
     public void showPage() {
         JFrame frame = new JFrame("Transaction Management System");
         frame.setSize(1000, 700);
@@ -200,7 +200,6 @@ public class Transaction {
 
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.add(viewTransaction(), BorderLayout.CENTER);
-
 
         JButton deleteBtn = new JButton("Delete Transaction");
 
@@ -225,5 +224,6 @@ public class Transaction {
         frame.setVisible(true);
     }
 }
+
 
 
