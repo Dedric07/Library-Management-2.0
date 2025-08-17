@@ -62,10 +62,10 @@ git clone https://github.com/dedric07/library-management-2.0.git
 
     **Admin Table**
     ```sql
-    CREATE TABLE ADMIN (
+    CREATE TABLE admin (
         admin_id INT PRIMARY KEY AUTO_INCREMENT,
-        admin_name VARCHAR(255) NOT NULL UNIQUE,
-        admin_password VARCHAR(255) NOT NULL
+        admin_name VARCHAR(45) NOT NULL UNIQUE,
+        admin_password VARCHAR(45) NOT NULL
     );
     ```
 
@@ -73,9 +73,9 @@ git clone https://github.com/dedric07/library-management-2.0.git
     ```sql
     CREATE TABLE member (
         member_id INT PRIMARY KEY,
-        member_name VARCHAR(255) NOT NULL,
-        contact_details VARCHAR(255),
-        member_password VARCHAR(255) NOT NULL
+        member_name VARCHAR(45) NOT NULL,
+        contact_details VARCHAR(45),
+        member_password VARCHAR(45) NOT NULL
     );
     ```
 
@@ -83,11 +83,11 @@ git clone https://github.com/dedric07/library-management-2.0.git
     ```sql
     CREATE TABLE book (
         book_id INT PRIMARY KEY AUTO_INCREMENT,
-        book_title VARCHAR(255) NOT NULL,
-        book_author VARCHAR(255),
+        book_title VARCHAR(45) NOT NULL,
+        book_author VARCHAR(45),
         publish_year INT,
         book_quantity INT,
-        book_genre VARCHAR(100)
+        book_genre VARCHAR(45)
     );
     ```
 
@@ -96,11 +96,11 @@ git clone https://github.com/dedric07/library-management-2.0.git
     CREATE TABLE transaction (
         transaction_id INT PRIMARY KEY AUTO_INCREMENT,
         member_id INT,
-        book_title VARCHAR(255),
+        book_title VARCHAR(45),
         borrow_quantity INT,
-        borrow_date VARCHAR(50),
-        return_date VARCHAR(50),
-        status VARCHAR(50),
+        borrow_date VARCHAR(45),
+        return_date VARCHAR(45),
+        status VARCHAR(45),
         FOREIGN KEY (member_id) REFERENCES member(member_id)
             ON DELETE CASCADE
     );
