@@ -50,7 +50,7 @@ public class MyFrame extends JFrame {
     }
 
 
-    MyFrame() {
+    public MyFrame() {
         left = new JPanel();
         left.setBounds(0, 0, 400, 500);
         left.setBackground(new Color(0, 102, 102));
@@ -72,9 +72,9 @@ public class MyFrame extends JFrame {
         right.setBounds(400, 0, 800, 500);
         right.setLayout(null);
 
-        Login = new JLabel("Good Day");
+        Login = new JLabel("NoBook Library");
         Login.setBounds(569, 50, 200, 50);
-        Login.setFont(new Font("", Font.BOLD, 36));
+        Login.setFont(new Font("", Font.BOLD, 23));
         Login.setForeground(new Color(0, 102, 102));
 
         Name = new JLabel("Name");
@@ -130,7 +130,6 @@ public class MyFrame extends JFrame {
         this.add(right);
     }
 }
-
 
 
 
