@@ -1,5 +1,6 @@
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
 import java.util.List;
@@ -9,7 +10,57 @@ import java.util.ArrayList;
 
 public class Transaction {
 
-    public static void borrowBook() {//borrow book
+    private int transactionId;
+    private int memberId;
+    private String bookTitle;
+    private String borrowDate;
+    private String returnDate;
+    private String status;
+    private int borrowQuantity;
+
+    public Transaction() {}
+
+    public Transaction(int transactionId, int memberId, String bookTitle, String borrowDate,
+                       String returnDate, String status, int borrowQuantity) {
+        this.transactionId = transactionId;
+        this.memberId = memberId;
+        this.bookTitle = bookTitle;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
+        this.status = status;
+        this.borrowQuantity = borrowQuantity;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public String getBorrowDate() {
+        return borrowDate;
+    }
+
+    public String getReturnDate() {
+        return returnDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getBorrowQuantity() {
+        return borrowQuantity;
+    }
+
+
+    public static void borrowBook() {
         try {
             int memid = Integer.parseInt(JOptionPane.showInputDialog("Enter your Member ID: "));
             String btitle = JOptionPane.showInputDialog("Enter book title you want to borrow: ");
@@ -30,7 +81,7 @@ public class Transaction {
 
                 if (bkquantity > 0) {
                     // minus quantity from the table
-                    String update = ("UPDATE book SET book_quantity = book_quantity - ?  WHERE book_title = ? ");
+                    String update = "UPDATE book SET book_quantity = book_quantity - ?  WHERE book_title = ? ";
                     PreparedStatement updatestate = connectdb.prepareStatement(update);
                     updatestate.setInt(1, bquantity);
                     updatestate.setString(2, btitle);
@@ -61,7 +112,7 @@ public class Transaction {
         }
     }
 
-    //display transaction in a JTable
+
     public static void returnBook() {
         try {
             int tranid = Integer.parseInt(JOptionPane.showInputDialog("Enter your transaction ID: "));
@@ -147,8 +198,6 @@ public class Transaction {
     }
 
 
-
-
     public static JPanel viewTransaction() {
         JPanel transactionPanel = new JPanel(new BorderLayout());
         transactionPanel.setBorder(BorderFactory.createTitledBorder("Transaction List"));
@@ -156,11 +205,18 @@ public class Transaction {
         try {
             Connection connectdb = Database.connect();
             Statement state = connectdb.createStatement();
+            //gets all row and columns from the transaction table
             ResultSet result = state.executeQuery("SELECT * FROM TRANSACTION");
-
+            //create an arrayof column names for transaction table
             String[] columnTransaction = {"Transaction ID", "Member ID", "Book Title", "Borrow Date", "Status", "Borrow Quantity", "Return Date"};
+
+            //create list that hold all rows from the database
+            //store as String[] in the list
             List<String[]> transactionInfo = new ArrayList<>();
 
+            //loop all row in the result set
+            //each row with 7 elements
+            //use String.valueof to convert integer to String
             while (result.next()) {
                 String[] row = new String[7];
                 row[0] = String.valueOf(result.getInt("transaction_id"));
@@ -175,6 +231,7 @@ public class Transaction {
 
             connectdb.close();
 
+            //convert List<String[]> to 2d array
             String[][] tableData = new String[transactionInfo.size()][7];
             for (int i = 0; i < transactionInfo.size(); i++) {
                 tableData[i] = transactionInfo.get(i);
@@ -192,7 +249,7 @@ public class Transaction {
         return transactionPanel;
     }
 
-    
+
     public void showPage() {
         JFrame frame = new JFrame("Transaction Management System");
         frame.setSize(1000, 700);
@@ -200,6 +257,7 @@ public class Transaction {
 
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.add(viewTransaction(), BorderLayout.CENTER);
+
 
         JButton deleteBtn = new JButton("Delete Transaction");
 
@@ -223,7 +281,6 @@ public class Transaction {
         frame.add(contentPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
+
+
 }
-
-
-
