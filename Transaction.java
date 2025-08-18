@@ -18,10 +18,21 @@ public class Transaction {
     private String status;
     private int borrowQuantity;
 
-    public Transaction() {}
+    public Transaction() {
+        this.transactionId = 0;
+        this.memberId = 0;
+        this.bookTitle = "";
+        this.borrowDate = "";
+        this.returnDate = "";
+        this.status = "";
+        this.borrowQuantity = 0;
+
+    }
 
     public Transaction(int transactionId, int memberId, String bookTitle, String borrowDate,
                        String returnDate, String status, int borrowQuantity) {
+
+        //referencing instances variables, use because the name same with the method parameters
         this.transactionId = transactionId;
         this.memberId = memberId;
         this.bookTitle = bookTitle;
@@ -31,33 +42,19 @@ public class Transaction {
         this.borrowQuantity = borrowQuantity;
     }
 
-    public int getTransactionId() {
-        return transactionId;
-    }
+    public int getTransactionId() {return transactionId;}
 
-    public int getMemberId() {
-        return memberId;
-    }
+    public int getMemberId() {return memberId;}
 
-    public String getBookTitle() {
-        return bookTitle;
-    }
+    public String getBookTitle() {return bookTitle;}
 
-    public String getBorrowDate() {
-        return borrowDate;
-    }
+    public String getBorrowDate() {return borrowDate;}
 
-    public String getReturnDate() {
-        return returnDate;
-    }
+    public String getReturnDate() {return returnDate;}
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() {return status;}
 
-    public int getBorrowQuantity() {
-        return borrowQuantity;
-    }
+    public int getBorrowQuantity() {return borrowQuantity;}
 
 
     public static void borrowBook() {
